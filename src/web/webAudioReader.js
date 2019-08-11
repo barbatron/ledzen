@@ -2,6 +2,7 @@
 const FFT_CHANNELS = 32;
 const FFT_SMOOTHING = 0.5;
 
+
 async function getUserMediaStream() {
 	console.log('Acquiring user media stream');
 	try {
@@ -12,7 +13,7 @@ async function getUserMediaStream() {
   }
 }
 
-export async function setupAudio(channelCount = FFT_CHANNELS, smoothing = FFT_SMOOTHING) {
+export async function setupAudio(smoothing = FFT_SMOOTHING, channelCount = FFT_CHANNELS) {
 	const stream = await getUserMediaStream();
 	const audioCtx = new window.AudioContext();
 

@@ -27,16 +27,30 @@ export class CanvasRenderer {
 		const barWidth = sliceWidth - 1;
 	 
 	 	// Clear
+	 	canvasCtx.fillStyle = 'rgb(50, 50, 50)';
 	  canvasCtx.fillRect(0, 0, width, height);
 	  
 	  // Bars
-	  for(var barIndex = 0; barIndex < bufferLength; barIndex++) {
+	  for(let barIndex = 0; barIndex < bufferLength; barIndex++) {
 	  	const barValue = dataArray[barIndex];
 	  	const barHeight = barValue / 255.0 * height;
 	  	const x = Math.ceil(barIndex * sliceWidth);
 	    canvasCtx.fillStyle = this.getColor(barIndex, barHeight, dataArray);
 	    canvasCtx.fillRect(x, height-barHeight, barWidth, barHeight);
 	  }
+
+	  this.channels.forEach(channel => {
+	  	const barValue = channel.readValue(dataArray);
+	  	const barHeight = barValue / 255.0 * height;
+	  	canvasCtx.strokeStyle = 'white'; //channel.color;
+	  	canvasCtx.lineWidth = "2";
+	  	const x = Math.ceil(this.getChannelIndex(channel, dataArray) * sliceWidth);
+			canvasCtx.beginPath();
+			canvasCtx.moveTo(x, height-barHeight);
+			canvasCtx.lineTo(x + barWidth, height-barHeight);
+	  	//canvasCtx.rect(x, height-barHeight, barWidth, barHeight);
+	  	canvasCtx.stroke();
+	  });
 	};
 }
 
