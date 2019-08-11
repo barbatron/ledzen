@@ -1,16 +1,18 @@
-function getDefaultUrl() { 
-  return 'ws://192.168.0.106:81/';
-}
+const twoHex = value => parseInt(value).toString(16).padStart(2, '0');
 
-class WsClient {
-  constructor(url = getDefaultUrl()) {
+export class WsClient {
+  constructor(url) {
+    if (!url) {
+      throw new Error('Url required');
+    }
     this.url = url;
     this.connection = null;
   }
+
   connect() {
     return new Promise((resolve, reject) => {
         const connection = new WebSocket(this.url, ['arduino']);
-
+0
         connection.onopen = () => {
           connection.send('Connect ' + new Date());
           resolve(this);
@@ -29,18 +31,21 @@ class WsClient {
     });
   }
 
-  sendRGB(r, g, b) {
-    if (this.connection.bufferedAmount > 0) {
-      console.warn('Ignoring sendRGB data due to non-empty send buffer');
+  send(data, allowNonEmptyBuffer = false) {
+    if (this.connection.bufferedAmount > 0 && !allowNonEmptyBuffer) {
+      console.warn('Ignoring send due to non-empty send buffer', data);
       return;
     }
-    const twoHex = value => parseInt(value).toString(16).padStart(2, '0');
+    this.connection.send(data);
+  }
+
+  sendRgb([r, g, b]) {
     const msg = `#${twoHex(r)}${twoHex(g)}${twoHex(b)}`;
     this.connection.send(msg);
   }
 }
 
-function connectWs() {
+export function connectWs() {
   const client = new WsClient(getDefaultUrl());
   window.webSocketClient = client;
   return client.connect();
