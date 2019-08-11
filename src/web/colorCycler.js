@@ -45,7 +45,7 @@ export function ColorCycler(fps = 30, duration = 3) {
   function calculateDistance(colorArray1, colorArray2) {
     var distance = [];
     for (var i = 0; i < colorArray1.length; i++) {
-      distance.push(Math.abs(colorArray1[i] - colorArray2[i]));
+      distance.push(colorArray2[i] - colorArray1[i]);
     }
     return distance;
   }
@@ -76,8 +76,8 @@ export function ColorCycler(fps = 30, duration = 3) {
     currentColor = currentColor.map((currentColorPart, i) => currentColorPart += increment[i]);
 
     // transition ended. start a new one
-    const remainder = calculateDistance(currentColor, targetColor).reduce((sum, part) => sum + part, 0);
-    if (remainder < 2) {
+    const remainder = calculateDistance(currentColor, targetColor).reduce((sum, part) => sum + Math.abs(part), 0);
+    if (remainder < 5) {
       return true;
     } 
 

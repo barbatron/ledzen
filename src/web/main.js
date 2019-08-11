@@ -43,7 +43,7 @@ async function audioAnalysisEffect(rgbCallback) {
 
 function cyclingColorsEffect(rgbCallback) {
 	const channels = createRgbChannels(BRIGHTNESS, ColorCycleChannelSettings);
-	const colorCycler = new ColorCycler(30, 25);
+	const colorCycler = new ColorCycler(30, 15);
 	const handleNext = rgb => {
 		const rgbAdj = rgb.map((color, index) => channels[index].set(color));
 		document.body.style.backgroundColor = `rgb(${rgbAdj[0]}, ${rgbAdj[1]}, ${rgbAdj[2]})`;
