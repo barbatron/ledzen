@@ -44,11 +44,13 @@ async function audioAnalysisEffect(rgbCallback) {
 function cyclingColorsEffect(rgbCallback) {
 	const channels = createRgbChannels(BRIGHTNESS, ColorCycleChannelSettings);
 	const colorCycler = new ColorCycler(30, 25);
-	colorCycler.startTransition(rgb => {
+	const handleNext = rgb => {
 		const rgbAdj = rgb.map((color, index) => channels[index].set(color));
 		document.body.style.backgroundColor = `rgb(${rgbAdj[0]}, ${rgbAdj[1]}, ${rgbAdj[2]})`;
 		rgbCallback(rgbAdj);
-	});
+	};
+	const startTransition = () => colorCycler.startTransition(handleNext, startTransition);
+	startTransition();
 }
 
 

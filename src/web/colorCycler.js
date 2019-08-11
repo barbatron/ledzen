@@ -36,7 +36,6 @@ export function ColorCycler(fps = 30, duration = 3) {
       var num = random(min, max);
       color.push(num);
     }
-    console.log('New target color: %s %s %s', ...color);
     return color;
   }
 
@@ -56,15 +55,7 @@ export function ColorCycler(fps = 30, duration = 3) {
   function calculateIncrement(distanceArray, fps, duration) {
     var fps			= fps || 30;
     var duration	= duration || 1;
-    var increment	= [];
-    for (var i = 0; i < distanceArray.length; i++) {
-      var incr = Math.abs(Math.floor(distanceArray[i] / (fps * duration)));
-      if (incr == 0) {
-        incr = 1;
-      }
-      increment.push(incr);
-    }
-    return increment;
+    return distanceArray.map((distance, i) => distanceArray[i] / (fps * duration));
   }
 
   // Converts RGB array [32,64,128] to HEX string #204080
@@ -82,46 +73,11 @@ export function ColorCycler(fps = 30, duration = 3) {
   /* ==================== Transition Calculator ==================== */
   function transition() {
     // checking R
-    if (currentColor[0] > targetColor[0]) {
-      currentColor[0] -= increment[0];
-      if (currentColor[0] <= targetColor[0]) {
-        increment[0] = 0;
-      }
-    } else {
-      currentColor[0] += increment[0];
-      if (currentColor[0] >= targetColor[0]) {
-        increment[0] = 0;
-      }
-    }
-
-    // checking G
-    if (currentColor[1] > targetColor[1]) {
-      currentColor[1] -= increment[1];
-      if (currentColor[1] <= targetColor[1]) {
-        increment[1] = 0;
-      }
-    } else {
-      currentColor[1] += increment[1];
-      if (currentColor[1] >= targetColor[1]) {
-        increment[1] = 0;
-      }
-    }
-
-    // checking B
-    if (currentColor[2] > targetColor[2]) {
-      currentColor[2] -= increment[2];
-      if (currentColor[2] <= targetColor[2]) {
-        increment[2] = 0;
-      }
-    } else {
-      currentColor[2] += increment[2];
-      if (currentColor[2] >= targetColor[2]) {
-        increment[2] = 0;
-      }
-    }
+    currentColor = currentColor.map((currentColorPart, i) => currentColorPart += increment[i]);
 
     // transition ended. start a new one
-    if (increment[0] == 0 && increment[1] == 0 && increment[2] == 0) {
+    const remainder = calculateDistance(currentColor, targetColor).reduce((sum, part) => sum + part, 0);
+    if (remainder < 2) {
       return true;
     } 
 
@@ -136,18 +92,19 @@ export function ColorCycler(fps = 30, duration = 3) {
   }
 
   /* ==================== Transition Initiator ==================== */
-  function startTransition(callback) {
+  function startTransition(onNext, onDone) {
     stopTransition();
 
     targetColor	= generateRGB();
     distance	= calculateDistance(currentColor, targetColor);
+    console.log('New target color: %s %s %s [%.2f %.2f %.2f]', ...targetColor, ...distance);
     increment	= calculateIncrement(distance, fps, duration);
 
     updateTimer = setInterval(function() {
       const transitionDone = transition();
-      callback(currentColor);
+      onNext(currentColor);
       if (transitionDone) {
-        startTransition(callback);
+        onDone();
       }
     }, 1000/fps);
   }
