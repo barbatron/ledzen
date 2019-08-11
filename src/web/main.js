@@ -2,7 +2,6 @@ import {CanvasRenderer} from "./canvasRenderer.js";
 import {setupAudio} from "./webAudioReader.js";
 import {createRgbChannels} from "./colorChannels.js";
 import {WsClient} from "./webSocketClient.js";
-import {EspWebSocketClient} from "./espWebSocketClient.js";
 
 // LED output params
 const WEBSOCKET_UPDATE_INTERVAL = 5;
@@ -23,8 +22,6 @@ async function run() {
 	await wsClient.connect();
 	console.log('Connected');
 
-	const espClient = new EspWebSocketClient(channels, wsClient);
-
 	// Start canvas rendering
 	const readAndDraw = () => {
 		readFft();
@@ -35,7 +32,8 @@ async function run() {
 
 	// Start sending to ESP
 	window.setInterval(() => {
-		espClient.sendRgb(dataArray);
+		const rgbValues = channels.map(channel => channel.readValue(dataArray));
+		wsClient.sendRgb(rgbValues);
 	}, WEBSOCKET_UPDATE_INTERVAL);
 }
 
