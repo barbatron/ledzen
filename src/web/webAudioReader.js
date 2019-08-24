@@ -1,6 +1,6 @@
 // Audio analysis params
 const FFT_CHANNELS = 32;
-const FFT_SMOOTHING = 0.5;
+const FFT_SMOOTHING = 0.8;
 
 
 async function getUserMediaStream() {

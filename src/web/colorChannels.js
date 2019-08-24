@@ -24,7 +24,7 @@ export const AudioAnalysisChannelSettings = {
 // Cycle
 export const ColorCycleChannelSettings = {
 	RED: {
-		factor: 1,
+		factor: 0.7,
 		barColor: RGB_RED,
 	},
 	GREEN: {
@@ -32,11 +32,10 @@ export const ColorCycleChannelSettings = {
 		barColor: RGB_GREEN,
 	},
 	BLUE: {
-		factor: 1,
+		factor: 0.7,
 		barColor: RGB_BLUE,
 	}
 };
-
 
 
 class Channel {
@@ -75,7 +74,7 @@ class Channel {
 }
 
 // Channel position in the FFT array 0-1 = bass->treble
-export const createRgbChannels = (brightness, settings) => {
+export const createRgbChannels = (brightness, settings = ColorCycleChannelSettings) => {
 	const createChannel = setting => new Channel({position: setting.position, factor: setting.factor * brightness, color: setting.barColor });
 	const red = createChannel(settings.RED, brightness);
 	const green = createChannel(settings.GREEN, brightness);
