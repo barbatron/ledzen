@@ -6,10 +6,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "c:/code/esp/websocket-led/src/esp-pio/include",
-                "c:/code/esp/websocket-led/src/esp-pio/src",
+                "c:/code/esp/websocket-led/esp-pio/include",
+                "c:/code/esp/websocket-led/esp-pio/src",
                 "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266mDNS/src",
-                "c:/code/esp/websocket-led/src/esp-pio/.pio/libdeps/nodemcuv2/WebSockets/src",
+                "c:/code/esp/websocket-led/esp-pio/.pio/libdeps/nodemcuv2/WebSockets/src",
                 "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/Hash/src",
                 "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/Ethernet/src",
                 "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/SPI",
@@ -49,10 +49,10 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/code/esp/websocket-led/src/esp-pio/include",
-                    "c:/code/esp/websocket-led/src/esp-pio/src",
+                    "c:/code/esp/websocket-led/esp-pio/include",
+                    "c:/code/esp/websocket-led/esp-pio/src",
                     "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/ESP8266mDNS/src",
-                    "c:/code/esp/websocket-led/src/esp-pio/.pio/libdeps/nodemcuv2/WebSockets/src",
+                    "c:/code/esp/websocket-led/esp-pio/.pio/libdeps/nodemcuv2/WebSockets/src",
                     "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/Hash/src",
                     "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/Ethernet/src",
                     "C:/Users/barbatron/.platformio/packages/framework-arduinoespressif8266/libraries/SPI",
