@@ -2,22 +2,43 @@ const RGB_RED = 'rgb(255,0,0)';
 const RGB_GREEN = 'rgb(0,255,0)';
 const RGB_BLUE ='rgb(0,0,255)';
 
+const ColorCompensation = {
+	RED: 0.65,
+	GREEN: 1.5,
+	BLUE: 0.75,
+};
+
+const AudioChannels = {
+	LOW: {
+		position: 0.07,
+		factor: 0.7,
+	},
+	MID: {
+		position: 0.21,
+		factor: 1.25,
+	},
+	HIGH: {
+		position: 0.4,
+		factor: 1.6,
+	}
+}
+
 // AudioAnalysis
 export const AudioAnalysisChannelSettings = {
 	RED: {
-		position: 0.07,
-		factor: 0.7,
+		...AudioChannels.HIGH,
 		barColor: RGB_RED,
+		compensation: ColorCompensation.RED,
 	},
 	GREEN: {
-		position: 0.25,
-		factor: 1.75,
+		...AudioChannels.LOW,
 		barColor: RGB_GREEN,
+		compensation: ColorCompensation.GREEN,
 	},
 	BLUE: {
-		position: 0.4,
-		factor: 1.5,
+		...AudioChannels.MID,
 		barColor: RGB_BLUE,
+		compensation: ColorCompensation.BLUE,
 	}
 };
 
@@ -39,9 +60,9 @@ export const ColorCycleChannelSettings = {
 
 
 class Channel {
-	constructor({position, factor, color}) {
+	constructor({position, factor, color, compensation}) {
 		this.position = position;
-		this.factor = factor;
+		this.factor = factor * compensation;
 		this.color = color;
 	}
 
@@ -75,7 +96,7 @@ class Channel {
 
 // Channel position in the FFT array 0-1 = bass->treble
 export const createRgbChannels = (brightness, settings = ColorCycleChannelSettings) => {
-	const createChannel = setting => new Channel({position: setting.position, factor: setting.factor * brightness, color: setting.barColor });
+	const createChannel = setting => new Channel({position: setting.position, factor: setting.factor * brightness, color: setting.barColor, compensation: setting.compensation });
 	const red = createChannel(settings.RED, brightness);
 	const green = createChannel(settings.GREEN, brightness);
 	const blue = createChannel(settings.BLUE, brightness);

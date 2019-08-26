@@ -1,23 +1,39 @@
 <html lang="en">
 	<head>
 		<script type="module" src="/main.js" ></script>
+		<style>
+			@media (max-width: 700px) {
+				#ui {
+					display: none;
+				}
+				.canvas {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<div class="canvas">
 			<canvas id="canvas" width="600" height="400" >
 			</canvas>
 		</div>
-		<div>
-			<label for="currentR">R: </label>
-			<input name="currentR" id="currentR" disabled value="-">
-		</div>
-		<div>
-			<label for="currentG">G: </label>
-			<input name="currentG" id="currentG" disabled value="-">
-		</div>
-		<div>
-			<label for="currentB">B: </label>
-			<input name="currentB" id="currentB" disabled value="-">
+		<div id="ui">
+			<div>
+				<label for="currentR">R: </label>
+				<input name="currentR" id="currentR" disabled value="-">
+			</div>
+			<div>
+				<label for="currentG">G: </label>
+				<input name="currentG" id="currentG" disabled value="-">
+			</div>
+			<div>
+				<label for="currentB">B: </label>
+				<input name="currentB" id="currentB" disabled value="-">
+			</div>
 		</div>
 	</body>
 </html>

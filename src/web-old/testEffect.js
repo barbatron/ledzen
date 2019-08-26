@@ -2,7 +2,7 @@ const duration = 2000;
 const ON = 255;
 
 const strobe = [
-	{color: [255, 255, 255], duration: 3},
+	{color: [255, 255, 255], duration: 6},
 	{color: [0, 0, 0], duration: 100},
 ];
 
@@ -35,7 +35,7 @@ const advance = (toIndex = nextStep()) => {
 	timer = setTimeout(advance, currentStep().duration || duration);
 };
 
-export function testEffect(rgbCallback, {stop}) {
+export function testEffect(rgbCallback) {
 	callback = rgbCallback;
 	advance();
 }

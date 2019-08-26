@@ -1,6 +1,6 @@
 // Audio analysis params
 const FFT_CHANNELS = 32;
-const FFT_SMOOTHING = 0.8;
+const FFT_SMOOTHING = 0.5;
 
 
 async function getUserMediaStream() {
@@ -18,8 +18,8 @@ export async function setupAudio(smoothing = FFT_SMOOTHING, channelCount = FFT_C
 	const audioCtx = new window.AudioContext();
 
 	const analyser = audioCtx.createAnalyser();
-	analyser.smoothingTimeConstant = FFT_SMOOTHING;
-	analyser.fftSize = FFT_CHANNELS;
+	analyser.smoothingTimeConstant = smoothing;
+	analyser.fftSize = channelCount;
 	
 	const source = audioCtx.createMediaStreamSource(stream);
 	source.connect(analyser);
