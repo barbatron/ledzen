@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "socketio": "^1.0.0"
+    "websocket": "1.0.29"
   }
 }

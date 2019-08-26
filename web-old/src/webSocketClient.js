@@ -1,18 +1,20 @@
 const twoHex = value => parseInt(value).toString(16).padStart(2, '0');
 
 export class WsClient {
-  constructor(url) {
+  constructor(url, namespaces = ['arduino']) {
     if (!url) {
       throw new Error('Url required');
     }
     this.url = url;
     this.connection = null;
+    if (namespaces) this.namespaces = namespaces;
   }
 
   connect() {
     return new Promise((resolve, reject) => {
-        const connection = new WebSocket(this.url, ['arduino']);
-0
+      try {
+        const connection = new WebSocket(this.url);
+
         connection.onopen = () => {
           connection.send('Connect ' + new Date());
           resolve(this);
@@ -28,6 +30,9 @@ export class WsClient {
         };
 
         this.connection = connection;
+      } catch (err) {
+        reject(err);
+      }
     });
   }
 
@@ -36,6 +41,7 @@ export class WsClient {
       console.warn('Ignoring send due to non-empty send buffer', data);
       return;
     }
+    console.log('Sending: ', data);
     this.connection.send(data);
   }
 

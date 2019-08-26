@@ -88,9 +88,20 @@ async function run(effect) {
 	});
 }
 
+async function testNodeServerConnection() {
+	const client = new WsClient('ws://127.0.0.1:3000');
+	await client.connect();
+	console.log('connected to the thing');
+	client.send('HEJHEJ', true);
+	client.send({type: 'SUPER_COMMAND', payload: {pins: [1,2,3]}}, true);
+}
+
 // Main entry point
 try {
-	run(audioAnalysisEffect);
+	//run(audioAnalysisEffect);
+	testNodeServerConnection();
 } catch (err) {
-  console.error(err);
+	debugger;
+  console.error(JSON.stringify(err));
 }
+
