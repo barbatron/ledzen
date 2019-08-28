@@ -30,6 +30,9 @@
 		"liveServer.settings.multiRootWorkspaceName": "WebAudio sender (prototype)",
 		"liveServer.settings.root": "../web-old/src",
 		"liveServer.settings.port": 8080,
-		"liveServer.settings.ChromeDebuggingAttachment": true
+		"liveServer.settings.ChromeDebuggingAttachment": true,
+		"files.associations": {
+			"string": "cpp"
+		}
 	}
 }
