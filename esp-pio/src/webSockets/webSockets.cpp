@@ -13,13 +13,13 @@ void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t l
     switch (type)
     {
     case WStype_DISCONNECTED:
-        Serial.printf("[%u] Disconnected!\n", num);
+        Serial.printf("[WS %u] Disconnected!\n", num);
         break;
 
     case WStype_CONNECTED:
     {
         IPAddress ip = webSocketsServer->remoteIP(num);
-        Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
+        Serial.printf("[WS %u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
 
         // send message to client
         webSocketsServer->sendTXT(num, "Connected");
@@ -27,7 +27,7 @@ void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t l
     break;
 
     case WStype_TEXT:
-        Serial.printf("[%u] get Text: %s\n", num, payload);
+        Serial.printf("[WS %u] get Text: %s\n", num, payload);
 
         if (payload[0] == '#')
         {
@@ -41,7 +41,12 @@ void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t l
         break;
 
     case WStype_ERROR:
-        Serial.printf("[%u] error", num);
+        Serial.printf("[WS %u] error\n", num);
+        break;
+
+    case WStype_PING:
+    case WStype_PONG:
+        Serial.printf("[WS %u] %s", num, type);
         break;
 
     case WStype_BIN:
@@ -49,8 +54,6 @@ void handleWebSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t l
     case WStype_FRAGMENT_BIN_START:
     case WStype_FRAGMENT:
     case WStype_FRAGMENT_FIN:
-    case WStype_PING:
-    case WStype_PONG:
         break;
     }
 }

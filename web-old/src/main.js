@@ -16,14 +16,14 @@ const FFT_SMOOTHING = 0.6;
 const FFT_RESOLUTION = 64;
 
 // ESP web socket server
-const ESP_WS_URL = 'ws://192.168.0.106:81/';
-// const ESP_WS_URL = 'ws://lab.local:81/';
+// const ESP_WS_URL = 'ws://192.168.0.106:81/';
+const ESP_WS_URL = 'ws://lab.local:81/';
 
 let frames = Math.random() * 40000;
 
 const CHANNEL_SLIDE_CENTER = 0.25;
 const CHANNEL_SLIDE_AMP = CHANNEL_SLIDE_CENTER;
-const CHANNEL_SLIDE_SPEED_FACTOR = 1;
+const CHANNEL_SLIDE_SPEED_FACTOR = 0.3;
 
 async function audioAnalysisEffect(rgbCallback) {
 	const { readFft, dataArray } = await setupAudio(FFT_SMOOTHING, FFT_RESOLUTION);
