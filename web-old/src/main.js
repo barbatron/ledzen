@@ -12,7 +12,7 @@ import { testEffect } from './testEffect.js';
 const BRIGHTNESS = 1;
 
 // Audio analysis specific
-const FFT_SMOOTHING = 0.6;
+const FFT_SMOOTHING = 0.7;
 const FFT_RESOLUTION = 64;
 
 // ESP web socket server

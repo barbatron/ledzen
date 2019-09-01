@@ -3,12 +3,15 @@ const colorFromBarHeight = barHeight => {
 	return `rgb(255, 255, 255, ${intens})`;
 }
 
+let renderer;
+
 export class CanvasRenderer {
 	constructor(canvas, channels = []) {
 		this.canvas = canvas;
 		this.channels = channels;
 		this.canvasCtx = this.canvas.getContext('2d');
 		this.createChannelGradients(channels);
+		renderer = this;
 	}
 
 	createChannelGradients(channels) {
@@ -87,6 +90,7 @@ const handleResize = () => {
 	const canvas = document.getElementById('canvas');
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+	if (renderer)	renderer.createChannelGradients(renderer.channels);
 }
 
 window.addEventListener('resize', handleResize);
