@@ -16,14 +16,14 @@ const FFT_SMOOTHING = 0.6;
 const FFT_RESOLUTION = 64;
 
 // ESP web socket server
-// const ESP_WS_URL = 'ws://192.168.0.106:81/';
-const ESP_WS_URL = 'ws://lab.local:81/';
+const ESP_WS_URL = 'ws://192.168.0.106:81/';
+// const ESP_WS_URL = 'ws://lab.local:81/';
 
 let frames = Math.random() * 40000;
 
 const CHANNEL_SLIDE_CENTER = 0.25;
 const CHANNEL_SLIDE_AMP = CHANNEL_SLIDE_CENTER;
-const CHANNEL_SLIDE_SPEED_FACTOR = 0.3;
+const CHANNEL_SLIDE_SPEED_FACTOR = 0.6;
 
 async function audioAnalysisEffect(rgbCallback) {
 	const { readFft, dataArray } = await setupAudio(FFT_SMOOTHING, FFT_RESOLUTION);
@@ -40,7 +40,7 @@ async function audioAnalysisEffect(rgbCallback) {
 		channels[0].position =
 			CHANNEL_SLIDE_CENTER + CHANNEL_SLIDE_AMP * Math.sin(frames * 0.00233 * CHANNEL_SLIDE_SPEED_FACTOR);
 		channels[1].position =
-			CHANNEL_SLIDE_CENTER + CHANNEL_SLIDE_AMP * Math.sin(frames * 0.00317 * CHANNEL_SLIDE_SPEED_FACTOR);
+			CHANNEL_SLIDE_CENTER + CHANNEL_SLIDE_AMP * Math.cos(frames * 0.00317 * CHANNEL_SLIDE_SPEED_FACTOR);
 		channels[2].position =
 			CHANNEL_SLIDE_CENTER + CHANNEL_SLIDE_AMP * Math.cos(frames * -0.0027 * CHANNEL_SLIDE_SPEED_FACTOR);
 		frames++;

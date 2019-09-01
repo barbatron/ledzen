@@ -1,6 +1,6 @@
-const RGB_RED = 'rgb(255,0,0)';
-const RGB_GREEN = 'rgb(0,255,0)';
-const RGB_BLUE ='rgb(0,0,255)';
+const RGB_RED = [255, 0, 0];
+const RGB_GREEN = [0, 255, 0];
+const RGB_BLUE = [0, 0, 255];
 
 const ColorCompensation = {
 	RED: 0.65,
