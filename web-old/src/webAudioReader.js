@@ -1,36 +1,45 @@
 // Audio analysis params
 const FFT_CHANNELS = 32;
-const FFT_SMOOTHING = 0.5;
-
+const FFT_SMOOTHING = 0.8;
 
 async function getUserMediaStream() {
-	console.log('Acquiring user media stream');
-	try {
-  	return await navigator.mediaDevices.getUserMedia({ audio: true, video: false }); 
+  console.log("Enumerating devices");
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  console.log("Devices: ", devices);
+
+  console.log("Acquiring user media stream");
+  try {
+    return await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
+    });
   } catch (err) {
-  	console.error('Failed: ' + err.message);
-  	throw err;
+    console.error("Failed: " + err.message);
+    throw err;
   }
 }
 
-export async function setupAudio(smoothing = FFT_SMOOTHING, channelCount = FFT_CHANNELS) {
-	const stream = await getUserMediaStream();
-	const audioCtx = new window.AudioContext();
+export async function setupAudio(
+  smoothing = FFT_SMOOTHING,
+  channelCount = FFT_CHANNELS
+) {
+  const stream = await getUserMediaStream();
+  const audioCtx = new window.AudioContext();
 
-	const analyser = audioCtx.createAnalyser();
-	analyser.smoothingTimeConstant = smoothing;
-	analyser.fftSize = channelCount;
-	
-	const source = audioCtx.createMediaStreamSource(stream);
-	source.connect(analyser);
+  const analyser = audioCtx.createAnalyser();
+  analyser.smoothingTimeConstant = smoothing;
+  analyser.fftSize = channelCount;
 
-	const bufferLength = analyser.frequencyBinCount;
-	const dataArray = new Uint8Array(bufferLength);
-	console.log('WebAudio analyser ready. Array length = %d', dataArray.length);
+  const source = audioCtx.createMediaStreamSource(stream);
+  source.connect(analyser);
 
-	const readFft = () => analyser.getByteFrequencyData(dataArray);
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  console.log("WebAudio analyser ready. Array length = %d", dataArray.length);
 
-	return {readFft, dataArray, analyser};
+  const readFft = () => analyser.getByteFrequencyData(dataArray);
+
+  return { readFft, dataArray, analyser };
 }
 
-console.log('Loaded webAudioReader');
+console.log("Loaded webAudioReader");
